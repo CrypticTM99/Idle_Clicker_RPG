@@ -14,7 +14,18 @@ const enemies = [
     { name: "Goblin", hp: 200, img: "assets/images/enemies/enemy2.png", reward: 250 },
     { name: "Ogre", hp: 400, img: "assets/images/enemies/enemy3.png", reward: 360 },
     { name: "Monster4", hp: 600, img: "assets/images/enemies/enemy4.png", reward: 500 },
-    { name: "Ogre", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster5", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster6", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster7", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster8", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster9", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster10", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster11", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster12", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster13", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster14", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster15", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster16", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
 ];
 
 let enemyHP = enemies[currentEnemy].hp;
@@ -22,6 +33,8 @@ let enemyHP = enemies[currentEnemy].hp;
 const heroData = [
     { name: "Swordman", cost: 100, goldPerSecond: 5, idleDamage: 5, xp: 0, level: 1 },
     { name: "Archer", cost: 400, goldPerSecond: 10, idleDamage: 14, xp: 0, level: 1 },
+    { name: "Mage", cost: 600, goldPerSecond: 20, idleDamage: 28, xp: 0, level: 1 },
+    { name: "Swashbuckler", cost: 1200, goldPerSecond: 45, idleDamage: 36, xp: 0, level: 2 },
     { name: "Mage", cost: 600, goldPerSecond: 20, idleDamage: 28, xp: 0, level: 1 },
 ];
 
@@ -35,6 +48,7 @@ const questData = [
     { description: "Click 10 times", progress: 0, target: 10, reward: 50, complete: false },
     { description: "Defeat 5 enemies", progress: 0, target: 5, reward: 100, complete: false },
     { description: "Defeat 20 enemies", progress: 0, target: 20, reward: 200, complete: false },
+    { description: "Click 50 times", progress: 0, target: 50, reward: 250, complete: false },
 ];
 
 let defeatedEnemies = 0;
