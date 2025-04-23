@@ -176,55 +176,7 @@
         </div>
     </div>
 
-    <script>
-        // Global variables
-        let gold = 0;
-        let heroes = [];
-
-        // Hero Data: name and cost (can be adjusted as needed)
-        const heroData = [
-            { name: "Swordsman", cost: 100 },
-            { name: "Archer", cost: 150 },
-            { name: "Mage", cost: 200 },
-            { name: "Swashbuckler", cost: 250 }
-        ];
-
-        // Function to update the UI
-        function updateUI() {
-            document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
-
-            // Update hero buttons to show whether they can be recruited or not
-            heroData.forEach((hero, index) => {
-                const heroButton = document.getElementById(`hero-${index}`);
-                if (gold >= hero.cost) {
-                    heroButton.disabled = false;
-                    heroButton.innerText = `Recruit ${hero.name} - ${hero.cost} Gold`;
-                } else {
-                    heroButton.disabled = true;
-                    heroButton.innerText = `Not enough gold for ${hero.name}`;
-                }
-            });
-        }
-
-        // Function to handle hero recruitment
-        function recruitHero(heroIndex) {
-            const hero = heroData[heroIndex];
-            if (gold >= hero.cost) {
-                gold -= hero.cost; // Deduct gold
-                heroes.push(hero.name); // Add hero to the player's list of heroes
-                updateUI(); // Update UI to reflect new hero and gold
-
-                alert(`You recruited a ${hero.name}!`);
-            }
-        }
-
-        // Initialize the game
-        function initializeGame() {
-            updateUI(); // Update initial UI with zero gold and no heroes
-        }
-
-        // Start the game
-        initializeGame();
-    </script>
+    <!-- Include the external JavaScript file -->
+    <script src="assets/js/game.js"></script>
 </body>
 </html>
