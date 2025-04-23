@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🗡️ Clicker Quest</title>
+    <title>🗡️ Cryptic's Clicker RPG</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Responsive Design */
@@ -69,6 +69,23 @@
             font-family: 'Arial', sans-serif;
             color: #333;
         }
+
+        /* Hero Button Styling */
+        .hero-button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .hero-button:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -124,10 +141,10 @@
         <div id="heroes-container">
             <h2>🧙‍♂️ Heroes</h2>
             <div id="heroes-list">
-                <button class="hero-button" onclick="recruitHero('Swordsman')">Swordsman</button>
-                <button class="hero-button" onclick="recruitHero('Archer')">Archer</button>
-                <button class="hero-button" onclick="recruitHero('Mage')">Mage</button>
-                <button class="hero-button" onclick="recruitHero('Swashbuckler')">Swashbuckler</button>
+                <button class="hero-button" id="hero-0" onclick="recruitHero(0)">Swordsman</button>
+                <button class="hero-button" id="hero-1" onclick="recruitHero(1)">Archer</button>
+                <button class="hero-button" id="hero-2" onclick="recruitHero(2)">Mage</button>
+                <button class="hero-button" id="hero-3" onclick="recruitHero(3)">Swashbuckler</button>
             </div>
         </div>
 
@@ -150,15 +167,64 @@
             <div id="tavern-heroes-container">
                 <h3>🧙‍♂️ Heroes Available</h3>
                 <div id="tavern-hero-buttons">
-                    <button class="tavern-hero-button" onclick="recruitHero('Swordsman')">Swordsman</button>
-                    <button class="tavern-hero-button" onclick="recruitHero('Archer')">Archer</button>
-                    <button class="tavern-hero-button" onclick="recruitHero('Mage')">Mage</button>
-                    <button class="tavern-hero-button" onclick="recruitHero('Swashbuckler')">Swashbuckler</button>
+                    <button class="tavern-hero-button" onclick="recruitHero(0)">Swordsman</button>
+                    <button class="tavern-hero-button" onclick="recruitHero(1)">Archer</button>
+                    <button class="tavern-hero-button" onclick="recruitHero(2)">Mage</button>
+                    <button class="tavern-hero-button" onclick="recruitHero(3)">Swashbuckler</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="assets/js/game.js"></script>
+    <script>
+        // Global variables
+        let gold = 0;
+        let heroes = [];
+
+        // Hero Data: name and cost (can be adjusted as needed)
+        const heroData = [
+            { name: "Swordsman", cost: 100 },
+            { name: "Archer", cost: 150 },
+            { name: "Mage", cost: 200 },
+            { name: "Swashbuckler", cost: 250 }
+        ];
+
+        // Function to update the UI
+        function updateUI() {
+            document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
+
+            // Update hero buttons to show whether they can be recruited or not
+            heroData.forEach((hero, index) => {
+                const heroButton = document.getElementById(`hero-${index}`);
+                if (gold >= hero.cost) {
+                    heroButton.disabled = false;
+                    heroButton.innerText = `Recruit ${hero.name} - ${hero.cost} Gold`;
+                } else {
+                    heroButton.disabled = true;
+                    heroButton.innerText = `Not enough gold for ${hero.name}`;
+                }
+            });
+        }
+
+        // Function to handle hero recruitment
+        function recruitHero(heroIndex) {
+            const hero = heroData[heroIndex];
+            if (gold >= hero.cost) {
+                gold -= hero.cost; // Deduct gold
+                heroes.push(hero.name); // Add hero to the player's list of heroes
+                updateUI(); // Update UI to reflect new hero and gold
+
+                alert(`You recruited a ${hero.name}!`);
+            }
+        }
+
+        // Initialize the game
+        function initializeGame() {
+            updateUI(); // Update initial UI with zero gold and no heroes
+        }
+
+        // Start the game
+        initializeGame();
+    </script>
 </body>
 </html>
