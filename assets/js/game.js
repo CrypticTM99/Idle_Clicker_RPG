@@ -57,6 +57,22 @@ function initializeGame() {
     initializeTavernUpgrades(); // Initialize Tavern Upgrades
     updateEnemyDisplay();
     updateUI();
+
+    // Add event listener for gold ore image
+    const goldOreImage = document.getElementById("gold-ore");
+    goldOreImage.addEventListener("click", handleGoldOreClick);
+}
+
+// === Gold Ore Click Handler ===
+function handleGoldOreClick() {
+    // Increment gold per click
+    gold += goldPerClick * tavernUpgrades.goldBoost; // Apply gold boost from Tavern upgrades
+    
+    // Update UI
+    document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
+    
+    // Check for quests progress
+    updateQuestProgress();
 }
 
 // === Tavern Upgrades ===
@@ -222,6 +238,11 @@ function collectGoldFromHeroes() {
     });
 }
 
-// === Start Game ===
+// === Main Game Loop ===
+setInterval(() => {
+    collectGoldFromHeroes();
+    updateUI();
+}, 1000);
+
+// === Start the Game ===
 initializeGame();
-setInterval(collectGoldFromHeroes, 1000); // Collect gold every second
