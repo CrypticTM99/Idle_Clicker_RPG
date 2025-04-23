@@ -59,7 +59,7 @@ function initializeGame() {
     updateUI();
 
     // Add event listener for gold ore image
-    const goldOreImage = document.getElementById("gold-ore");
+    const goldOreImage = document.getElementById("gold-ore.png");
     if (goldOreImage) {
         goldOreImage.addEventListener("click", handleGoldOreClick);
     }
