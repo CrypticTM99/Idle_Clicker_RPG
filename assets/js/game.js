@@ -214,9 +214,10 @@ function calculateQuestProgress(quest) {
 
 // === Hero Management ===
 function checkForHeroes() {
-    heroes.forEach((hero) => {
+    const heroList = document.getElementById("hero-list");
+    heroList.innerHTML = "";
+    heroData.forEach((hero) => {
         if (gold >= hero.cost) {
-            // Allow buying the hero when there's enough gold
             const button = document.createElement("button");
             button.innerText = `Hire ${hero.name} (${hero.cost} gold)`;
             button.onclick = () => {
@@ -227,7 +228,7 @@ function checkForHeroes() {
                     updateUI();
                 }
             };
-            document.getElementById("hero-list").appendChild(button);
+            heroList.appendChild(button);
         }
     });
 }
