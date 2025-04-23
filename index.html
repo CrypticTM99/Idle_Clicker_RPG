@@ -27,6 +27,8 @@
                 <h2>👹 ↓ Enemy-↓</h2>
                 <img id="enemy-image" src="assets/images/enemies/enemy1.png" alt="Enemy">
                 <p id="enemy-health">Enemy Health: 100</p>
+                <p id="xp-gain" class="xp-gain" style="display: none;"></p> <!-- XP Gain Effect -->
+                <p id="level-up-effect" class="level-up-effect" style="display: none;"></p> <!-- Level-Up Effect -->
             </div>
 
             <div id="gold-ore-container">
@@ -51,15 +53,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Heroes Section -->
-        <div id="heroes-container">
-            <h2>🧙‍♂️ Heroes</h2>
-            <div id="hero-buttons">
-                <!-- Hero buttons dynamically added here -->
-            </div>
-        </div>
-
         <!-- Tavern Section -->
         <div id="tavern-container">
             <h2>🍺 Tavern</h2>
@@ -71,15 +64,21 @@
                     <!-- Tavern quests dynamically added here -->
                 </ul>
             </div>
-
+      <!-- Heroes Section -->
+        <div id="heroes-container">
+            <h2>🧙‍♂️ Heroes</h2>
+            <div id="hero-buttons">
+                <!-- Hero buttons dynamically added here -->
+            </div>
+        </div>
             <div id="tavern-heroes-container">
                 <h3>🧙‍♂️ Heroes Available</h3>
                 <div id="tavern-hero-buttons">
                     <!-- Tavern heroes dynamically added here -->
-                    <button class="tavern-hero-button">Swordsman</button>
-                    <button class="tavern-hero-button">Archer</button>
-                    <button class="tavern-hero-button">Mage</button>
-                    <button class="tavern-hero-button">Swashbuckler</button>
+                    <button class="tavern-hero-button" onclick="recruitHero('Swordsman')">Swordsman</button>
+                    <button class="tavern-hero-button" onclick="recruitHero('Archer')">Archer</button>
+                    <button class="tavern-hero-button" onclick="recruitHero('Mage')">Mage</button>
+                    <button class="tavern-hero-button" onclick="recruitHero('Swashbuckler')">Swashbuckler</button>
                 </div>
             </div>
         </div>
