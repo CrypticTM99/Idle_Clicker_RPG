@@ -17,7 +17,6 @@ const enemies = [
     { name: "Ogre", hp: 400, img: "assets/images/enemies/enemy3.png", reward: 360 },
     { name: "Monster4", hp: 600, img: "assets/images/enemies/enemy4.png", reward: 500 },
     { name: "Ogre", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    // Add more enemies as needed...
 ];
 
 // === Hero Data ===
@@ -67,9 +66,9 @@ function initializeGame() {
 
 // === Gold Ore Click Handler ===
 function handleGoldOreClick() {
-    // Increment gold per click
+    console.log('Gold ore clicked!'); // Debugging log
     gold += goldPerClick * tavernUpgrades.goldBoost; // Apply gold boost from Tavern upgrades
-    
+
     // Update UI
     document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
     
