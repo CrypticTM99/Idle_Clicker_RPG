@@ -236,25 +236,30 @@ function checkForHeroes() {
 // === Idle Gold and Damage Generation ===
 function generateIdleGoldAndDamage() {
     heroes.forEach(hero => {
-        gold += hero.goldPerSecond * tavernUpgrades.goldBoost; // Idle gold generation with gold boost
-        enemyHP -= hero.idleDamage; // Idle damage on the enemy
+        gold += hero.goldPerSecond * tavernUpgrades.heroBoost; // Gold per second
+        document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
     });
-
-    document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
-    document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
-}
-
-// === Player Level Up ===
-function checkPlayerLevelUp() {
-    if (playerXP >= playerLevel * 10) {
-        playerLevel++;
-        playerXP = 0;
-        updateUI();
+    heroes.forEach(hero => {
+        currentEnemy.hp -= hero.idleDamage;  // Idle damage per hero
+    });
+    if (currentEnemy.hp <= 0) {
+        handleEnemyDefeat();
     }
 }
 
-// Set interval for idle gold and damage generation
-setInterval(generateIdleGoldAndDamage, 1000);
+// === Leveling System ===
+function checkPlayerLevelUp() {
+    const xpToNextLevel = playerLevel * 100;
 
-// Start the game
+    if (playerXP >= xpToNextLevel) {
+        playerLevel++;
+        playerXP = 0;
+        alert(`Level Up! You are now level ${playerLevel}`);
+    }
+}
+
+// === Interval Setup for Idle Gold and Damage ===
+setInterval(generateIdleGoldAndDamage, 1000); // Every second
+
+// === Initialize the Game ===
 initializeGame();
