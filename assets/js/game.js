@@ -189,134 +189,56 @@ function initializeQuests() {
 function updateQuestProgress() {
     quests.forEach((quest, index) => {
         if (!quest.complete) {
-            if (quest.description.includes("Click") && totalClicks >= quest.target) {
-                completeQuest(quest, index);
-            } else if (quest.description.includes("Defeat") && defeatedEnemies >= quest.target) {
-                completeQuest(quest, index);
-            }
-        }
-    });
-}
+            quest.progress = calculateQuestProgress(quest);
+            const questItem = document.getElementById(`quest-${index}`);
+            questItem.innerText = `${quest.description} (Progress: ${quest.progress}/${quest.target})`;
 
-function completeQuest(quest, index) {
-    quest.complete = true;
-    gold += quest.reward;
-    const questItem = document.getElementById(`quest-${index}`);
-    questItem.classList.add("complete");
-    questItem.innerText = `${quest.description} - ✅ Complete!`;
-    fadeOutQuest(questItem);
-    updateUI();
-}
-
-function fadeOutQuest(element) {
-    setTimeout(() => {
-        element.style.transition = "opacity 2s";
-        element.style.opacity = 0;
-        setTimeout(() => {
-            element.style.display = "none";
-        }, 2000);
-    }, 1000);
-}
-
-// === Skills ===
-function initializeSkills() {
-    const skillContainer = document.getElementById("skill-list");
-    skillContainer.innerHTML = "";
-    skillData.forEach((skill) => {
-        const button = document.createElement("button");
-        button.innerText = `${skill.name} (${skill.cost} gold)`;
-        button.onclick = () => {
-            if (gold >= skill.cost) {
-                gold -= skill.cost;
-                skill.effect();
-                button.disabled = true;
+            if (quest.progress >= quest.target) {
+                quest.complete = true;
+                questItem.innerText = `${quest.description} (Completed)`;
+                gold += quest.reward;  // Reward gold for completing the quest
                 updateUI();
             }
-        };
-        skillContainer.appendChild(button);
+        }
     });
 }
 
-// === Heroes ===
-function checkForHeroes() {
-    const container = document.getElementById("hero-buttons");
-    container.innerHTML = "";
+function calculateQuestProgress(quest) {
+    if (quest.description.includes("Click")) {
+        return totalClicks;
+    } else if (quest.description.includes("Defeat")) {
+        return defeatedEnemies;
+    }
+    return 0;
+}
 
-    heroData.forEach((hero) => {
-        if (!heroes.includes(hero.name) && gold >= hero.cost) {
+// === Hero Management ===
+function checkForHeroes() {
+    heroes.forEach((hero) => {
+        if (gold >= hero.cost) {
+            // Allow buying the hero when there's enough gold
             const button = document.createElement("button");
             button.innerText = `Hire ${hero.name} (${hero.cost} gold)`;
-            button.onclick = () => buyHero(hero);
-            container.appendChild(button);
-        } else if (heroes.includes(hero.name)) {
-            const upgradeButton = document.createElement("button");
-            upgradeButton.innerText = `${hero.name} Level: ${hero.level} (Upgrade)`;
-            upgradeButton.onclick = () => upgradeHero(hero);
-            container.appendChild(upgradeButton);
+            button.onclick = () => {
+                if (gold >= hero.cost) {
+                    gold -= hero.cost;
+                    hero.xp += 10;  // Add XP for hiring
+                    updateUI();
+                }
+            };
+            document.getElementById("hero-list").appendChild(button);
         }
     });
 }
 
-function buyHero(hero) {
-    if (gold >= hero.cost) {
-        gold -= hero.cost;
-        heroes.push(hero.name);
-        startHeroIdleGeneration(hero);
-        startHeroIdleDamage(hero);
-        updateUI();
-    }
-}
-
-function upgradeHero(hero) {
-    const heroToUpgrade = heroData.find(h => h.name === hero.name);
-    if (heroToUpgrade && gold >= heroToUpgrade.cost * heroToUpgrade.level) {
-        gold -= heroToUpgrade.cost * heroToUpgrade.level;
-        heroToUpgrade.level += 1;
-        heroToUpgrade.goldPerSecond *= 1.5;  // Boost gold generation with each upgrade
-        heroToUpgrade.idleDamage *= 1.5;  // Boost idle damage with each upgrade
-        updateUI();
-    }
-}
-
-function startHeroIdleGeneration(hero) {
-    setInterval(() => {
-        gold += hero.goldPerSecond;
-        updateUI();
-    }, 1000);
-}
-
-function startHeroIdleDamage(hero) {
-    setInterval(() => {
-        if (enemyHP > 0) {
-            enemyHP -= hero.idleDamage * tavernUpgrades.heroBoost;  // Apply hero damage boost
-            if (enemyHP <= 0) {
-                enemyHP = 0;
-                handleEnemyDefeat();
-            }
-            updateUI();
-        }
-    }, 1000);
-}
-
-// === Manual Click for Gold Ore ===
-function generateGold() {
-    gold += goldPerClick * tavernUpgrades.goldBoost;  // Apply gold boost
-    totalClicks++;
-    updateUI();
-}
-
-// === Player Level-Up ===
+// === Player Level Up ===
 function checkPlayerLevelUp() {
     if (playerXP >= playerLevel * 10) {
         playerLevel++;
-        goldPerClick += 2;  // Increase gold per click on level up
-        playerXP = 0;  // Reset XP
+        playerXP = 0;
         updateUI();
     }
 }
 
-// === Credit ===
-document.getElementById("footer").innerText = "Created by CrypticTM";
-
-// === Start the Game ===
-window.onload = initializeGame;
+// Start the game
+initializeGame();
