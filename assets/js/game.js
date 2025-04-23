@@ -24,7 +24,7 @@ const enemies = [
 
 // === Hero Data ===
 const heroData = [
-    { name: "Swordsman", cost: 100, goldPerSecond: 5, idleDamage: 5, xp: 0, level: 1 },
+    { name: "Swordman", cost: 100, goldPerSecond: 5, idleDamage: 5, xp: 0, level: 1 },
     { name: "Archer", cost: 400, goldPerSecond: 10, idleDamage: 14, xp: 0, level: 1 },
     { name: "Mage", cost: 600, goldPerSecond: 20, idleDamage: 28, xp: 0, level: 1 },
     { name: "Swashbuckler", cost: 1200, goldPerSecond: 45, idleDamage: 36, xp: 0, level: 2 },
@@ -125,34 +125,6 @@ function completeQuest(quest, index) {
     document.getElementById(`quest-${index}`).innerText = `${quest.description} - Completed! Reward: ${quest.reward}`;
 }
 
-// === Hero Recruitment ===
-function recruitHero(heroIndex) {
-    const hero = heroData[heroIndex];
-    if (gold >= hero.cost) {
-        gold -= hero.cost;
-        heroes.push({ ...hero, xp: 0, level: 1 });
-        alert(`Recruited ${hero.name}!`);
-        updateUI();
-    } else {
-        alert(`Not enough gold to recruit ${hero.name}.`);
-    }
-}
-
-// === Hero Leveling ===
-function levelUpHero(heroIndex) {
-    const hero = heroes[heroIndex];
-    const cost = hero.level * 200; // The cost increases per level
-    if (gold >= cost) {
-        gold -= cost;
-        hero.level++;
-        hero.goldPerSecond += hero.level * 5;
-        hero.idleDamage += hero.level * 3;
-        updateUI();
-    } else {
-        alert(`Not enough gold to level up ${hero.name}.`);
-    }
-}
-
 // === Skill and Tavern Upgrades ===
 function initializeSkills() {
     const container = document.getElementById("skills-list");
@@ -229,15 +201,10 @@ setInterval(() => {
     updateXP();
 }, 1000);
 
-// === UI Updates ===
 function updateUI() {
     document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
     document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
     document.getElementById("player-level").innerText = `Level: ${playerLevel} - XP: ${playerXP}`;
-    heroes.forEach((hero, index) => {
-        document.getElementById(`hero-${index}`).innerText = `${hero.name} (Level: ${hero.level})`;
-    });
 }
 
-// Initialize the game
 initializeGame();
