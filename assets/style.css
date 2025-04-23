@@ -1,3 +1,26 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+#gold-display, #player-xp, #player-level {
+    font-size: 20px;
+    margin: 5px;
+}
+
 /* Style for XP gain effect */
 .xp-gain {
     position: absolute;
@@ -24,12 +47,73 @@
     transition: opacity 1s ease-out;
 }
 
-/* Transition for gold and enemy health */
-#gold-display, #enemy-health {
-    transition: opacity 0.5s ease;
+/* Game container flex styling */
+#game-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px auto;
+    padding: 0 10px;
 }
 
-/* Style for tavern upgrade buttons */
+/* Specific sections */
+#enemy-section, #quests-section, #hero-section, #tavern-section, #skills-section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 20%;
+    margin-right: 20px;
+}
+
+#enemy-section img {
+    width: 100%;
+    max-width: 150px;
+    display: block;
+    margin: 0 auto;
+}
+
+#quests-section, #hero-section, #skills-section, #tavern-section {
+    text-align: center;
+}
+
+#enemy-health {
+    font-size: 16px;
+    color: #f44336;
+    margin-top: 10px;
+}
+
+/* Button Styles */
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Quest and Hero Section Styling */
+#quest-list div, #hero-list div {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+/* Tavern Upgrade Button Styling */
 #tavern-upgrades-list button {
     margin-top: 10px;
     padding: 10px;
@@ -46,63 +130,7 @@
     cursor: not-allowed;
 }
 
-/* Mobile Responsive Styling */
-@media (max-width: 600px) {
-    #game-container {
-        flex-direction: column;
-        padding: 10px;
-    }
-    #info-container, #gameplay-container, #heroes-container, #tavern-container {
-        width: 100%;
-        text-align: center;
-    }
-    #quests-container, #skills-container, #heroes-container {
-        margin-top: 20px;
-    }
-    #enemy-container, #gold-ore-container {
-        margin-bottom: 20px;
-    }
-}
-
-/* Game container flex styling */
-#game-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 0 auto;
-}
-
-#gameplay-container {
-    width: 50%;
-    text-align: center;
-    position: relative;
-}
-
-#info-container {
-    width: 40%;
-}
-
-#heroes-container, #tavern-container {
-    width: 100%;
-    text-align: center;
-}
-
-#quests-container, #skills-container {
-    margin-top: 20px;
-}
-
-#enemy-container img, #gold-ore-container img {
-    max-width: 100px;
-    cursor: pointer;
-}
-
-/* Additional styling for sections */
-h1, h2, p {
-    font-family: 'Arial', sans-serif;
-    color: #333;
-}
-
-/* Fixed skills button container */
+/* Skill Buttons & Tooltips */
 #skills-container {
     position: absolute;
     bottom: 10px;
@@ -111,12 +139,6 @@ h1, h2, p {
     width: 90%;
     display: flex;
     justify-content: space-between;
-}
-
-#skill-list {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
 }
 
 .skill-button {
@@ -150,8 +172,18 @@ h1, h2, p {
     font-size: 14px;
 }
 
-/* Optional: Add extra styling for responsive skill buttons */
+/* Responsive Styles for Mobile */
 @media (max-width: 600px) {
+    #game-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    #quests-section, #hero-section, #skills-section, #tavern-section, #enemy-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
     #skills-container {
         flex-direction: column;
         align-items: center;
@@ -161,29 +193,27 @@ h1, h2, p {
         margin-bottom: 10px;
         width: 80%;
     }
+
+    #quest-list, #hero-list, #tavern-upgrades-list {
+        display: block;
+        margin-top: 10px;
+    }
+
+    button {
+        width: 90%;
+        margin-top: 10px;
+    }
 }
 
-/* Styling for Heroes Available Section */
-#tavern-heroes-container {
+/* Hover effects for quest and hero buttons */
+button.quest-button:hover {
+    background-color: #f44336;
+}
+
+button.hero-button:hover {
+    background-color: #8bc34a;
+}
+
+#quests-section, #skills-section, #hero-section {
     margin-top: 20px;
-}
-
-#tavern-hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-.tavern-hero-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.tavern-hero-button:hover {
-    background-color: #45a049;
 }
