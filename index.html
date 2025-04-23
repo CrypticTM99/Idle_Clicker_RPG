@@ -55,6 +55,24 @@
             font-family: 'Arial', sans-serif;
             color: #333;
         }
+
+        /* Skill Tooltip Styling */
+        .skill-tooltip {
+            display: none;
+            background-color: #444;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+        }
+
+        .skill-button:hover .skill-tooltip {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -78,12 +96,26 @@
                 <h2>👹 Enemy</h2>
                 <img id="enemy-image" src="assets/images/enemies/enemy1.png" alt="Enemy">
                 <p id="enemy-health">Enemy Health: 100</p>
+                <p id="xp-gain" class="xp-gain" style="display: none;"></p> <!-- XP Gain Effect -->
+                <p id="level-up-effect" class="level-up-effect" style="display: none;"></p> <!-- Level-Up Effect -->
             </div>
 
             <div id="skills-container">
                 <h2>⚔️ Skills</h2>
                 <div id="skill-list">
                     <!-- Skill buttons dynamically added here -->
+                    <button class="skill-button" id="skill1" onclick="useSkill(1)">
+                        Skill 1
+                        <div class="skill-tooltip">Pick Up the Sword: Increases gold per click.</div>
+                    </button>
+                    <button class="skill-button" id="skill2" onclick="useSkill(2)">
+                        Skill 2
+                        <div class="skill-tooltip">Double Gold: Doubles gold per click.</div>
+                    </button>
+                    <button class="skill-button" id="skill3" onclick="useSkill(3)">
+                        Skill 3
+                        <div class="skill-tooltip">2x Attack for Heroes: Boosts hero damage.</div>
+                    </button>
                 </div>
             </div>
 
@@ -97,6 +129,10 @@
             <h2>🧙‍♂️ Heroes</h2>
             <div id="hero-buttons">
                 <!-- Hero buttons dynamically added here -->
+                <button class="hero-button" onclick="recruitHero('Swordsman')">Swordsman</button>
+                <button class="hero-button" onclick="recruitHero('Archer')">Archer</button>
+                <button class="hero-button" onclick="recruitHero('Mage')">Mage</button>
+                <button class="hero-button" onclick="recruitHero('Swashbuckler')">Swashbuckler</button>
             </div>
         </div>
 
@@ -116,6 +152,10 @@
                 <h3>🧙‍♂️ Heroes Available</h3>
                 <div id="tavern-hero-buttons">
                     <!-- Tavern heroes dynamically added here -->
+                    <button class="tavern-hero-button" onclick="recruitHero('Swordsman')">Swordsman</button>
+                    <button class="tavern-hero-button" onclick="recruitHero('Archer')">Archer</button>
+                    <button class="tavern-hero-button" onclick="recruitHero('Mage')">Mage</button>
+                    <button class="tavern-hero-button" onclick="recruitHero('Swashbuckler')">Swashbuckler</button>
                 </div>
             </div>
         </div>
