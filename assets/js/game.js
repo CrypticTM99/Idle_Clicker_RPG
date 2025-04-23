@@ -60,7 +60,9 @@ function initializeGame() {
 
     // Add event listener for gold ore image
     const goldOreImage = document.getElementById("gold-ore");
-    goldOreImage.addEventListener("click", handleGoldOreClick);
+    if (goldOreImage) {
+        goldOreImage.addEventListener("click", handleGoldOreClick);
+    }
 }
 
 // === Gold Ore Click Handler ===
