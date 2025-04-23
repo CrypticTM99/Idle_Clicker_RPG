@@ -8,6 +8,7 @@ let enemyHP = 100;
 let playerXP = 0;
 let playerLevel = 1;
 let tavernUpgrades = { goldBoost: 1, heroBoost: 1 };  // Tavern upgrades
+let heroes = [];
 
 // === Enemy Data ===
 const enemies = [
@@ -16,20 +17,10 @@ const enemies = [
     { name: "Ogre", hp: 400, img: "assets/images/enemies/enemy3.png", reward: 360 },
     { name: "Monster4", hp: 600, img: "assets/images/enemies/enemy4.png", reward: 500 },
     { name: "Ogre", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster5", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster6", hp: 1000, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster7", hp: 1400, img: "assets/images/enemies/enemy6.png", reward: 600 },
-    { name: "Monster8", hp: 1800, img: "assets/images/enemies/enemy7.png", reward: 600 },
-    { name: "Monster9", hp: 2200, img: "assets/images/enemies/enemy8.png", reward: 600 },
-    { name: "Monster10", hp: 2800, img: "assets/images/enemies/enemy9.png", reward: 600 },
-    { name: "Monster11", hp: 3200, img: "assets/images/enemies/enemy10.png", reward: 600 },
-    { name: "Monster12", hp: 3800, img: "assets/images/enemies/enemy11.png", reward: 600 },
-    { name: "Monster13", hp: 4700, img: "assets/images/enemies/enemy12.png", reward: 600 },
-    { name: "Monster14", hp: 5400, img: "assets/images/enemies/enemy13.png", reward: 600 },
-    { name: "Monster15", hp: 6800, img: "assets/images/enemies/enemy14.png", reward: 600 },
-    { name: "Monster16", hp: 7400, img: "assets/images/enemies/enemy15.png", reward: 600 },
+    // Add more enemies as needed...
 ];
 
+// === Hero Data ===
 const heroData = [
     { name: "Swordman", cost: 100, goldPerSecond: 5, idleDamage: 5, xp: 0, level: 1 },
     { name: "Archer", cost: 400, goldPerSecond: 10, idleDamage: 14, xp: 0, level: 1 },
@@ -95,6 +86,7 @@ function updateUI() {
     checkForHeroes();
     updateQuestProgress();
     updateTavernUpgrades(); // Update Tavern Upgrades UI
+    updatePlayerLevel();
 }
 
 // === Update Tavern Upgrades UI ===
@@ -102,7 +94,7 @@ function updateTavernUpgrades() {
     const tavernContainer = document.getElementById("tavern-upgrades-list");
     tavernContainer.innerHTML = "";
 
-    tavernUpgradesData.forEach((upgrade, index) => {
+    tavernUpgradesData.forEach((upgrade) => {
         const button = document.createElement("button");
         button.innerText = `${upgrade.name} (${upgrade.cost} gold)`;
         button.onclick = () => {
@@ -115,6 +107,11 @@ function updateTavernUpgrades() {
         };
         tavernContainer.appendChild(button);
     });
+}
+
+// === Update Player Level ===
+function updatePlayerLevel() {
+    document.getElementById("player-level").innerText = `Level: ${playerLevel} - XP: ${playerXP}`;
 }
 
 // === Enemy Click Logic ===
@@ -217,5 +214,14 @@ function checkForHeroes() {
     });
 }
 
+// === Auto Collect Gold from Heroes ===
+function collectGoldFromHeroes() {
+    heroes.forEach(hero => {
+        gold += hero.goldPerSecond * hero.level;
+        document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
+    });
+}
+
 // === Start Game ===
 initializeGame();
+setInterval(collectGoldFromHeroes, 1000); // Collect gold every second
