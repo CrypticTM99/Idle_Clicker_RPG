@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicker Quest</title>
+    <title>🗡️ Clicker Quest</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Mobile Responsive Styling */
+        /* Responsive Design */
         @media (max-width: 600px) {
             #game-container {
                 flex-direction: column;
@@ -16,7 +16,7 @@
                 width: 100%;
                 text-align: center;
             }
-            #quests-container, #skills-container, #heroes-container {
+            #quests-container, #skills-container {
                 margin-top: 20px;
             }
             #enemy-container, #gold-ore-container {
@@ -24,39 +24,30 @@
             }
         }
 
-        /* Game container flex styling */
+        /* Main Game Layout */
         #game-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
             margin: 0 auto;
         }
+        #info-container {
+            width: 40%;
+        }
         #gameplay-container {
             width: 50%;
             text-align: center;
-        }
-        #info-container {
-            width: 40%;
         }
         #heroes-container, #tavern-container {
             width: 100%;
             text-align: center;
         }
-        #quests-container, #skills-container {
-            margin-top: 20px;
-        }
+
+        /* Image & Tooltip Styling */
         #enemy-container img, #gold-ore-container img {
             max-width: 100px;
             cursor: pointer;
         }
-
-        /* Additional styling for sections */
-        h1, h2, p {
-            font-family: 'Arial', sans-serif;
-            color: #333;
-        }
-
-        /* Skill Tooltip Styling */
         .skill-tooltip {
             display: none;
             background-color: #444;
@@ -69,23 +60,30 @@
             transform: translateX(-50%);
             font-size: 12px;
         }
-
         .skill-button:hover .skill-tooltip {
             display: block;
+        }
+
+        /* General Typography */
+        h1, h2, p {
+            font-family: 'Arial', sans-serif;
+            color: #333;
         }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <!-- Game Information Section -->
+        <!-- Info Section -->
         <div id="info-container">
-            <h1>🛡️ Clicker Quest</h1>
+            <h1>🗡️ Clicker Quest</h1>
             <p id="gold-display">💰 Gold: 0</p>
+            <p id="enemy-health">Enemy Health: 100</p>
+            <p id="player-level">Level: 1 - XP: 0</p>
 
             <div id="quests-container">
                 <h2>📜 Quests</h2>
                 <ul id="quest-list">
-                    <!-- Quests dynamically added here -->
+                    <!-- Dynamic Quests Here -->
                 </ul>
             </div>
         </div>
@@ -94,16 +92,14 @@
         <div id="gameplay-container">
             <div id="enemy-container">
                 <h2>👹 Enemy</h2>
-                <img id="enemy-image" src="assets/images/enemies/enemy1.png" alt="Enemy">
-                <p id="enemy-health">Enemy Health: 100</p>
-                <p id="xp-gain" class="xp-gain" style="display: none;"></p> <!-- XP Gain Effect -->
-                <p id="level-up-effect" class="level-up-effect" style="display: none;"></p> <!-- Level-Up Effect -->
+                <img id="enemy-image" src="assets/images/enemies/enemy1.png" alt="Enemy" class="clickable">
+                <p id="xp-gain" style="display: none;"></p>
+                <p id="level-up-effect" style="display: none;"></p>
             </div>
 
             <div id="skills-container">
                 <h2>⚔️ Skills</h2>
                 <div id="skill-list">
-                    <!-- Skill buttons dynamically added here -->
                     <button class="skill-button" id="skill1" onclick="useSkill(1)">
                         Skill 1
                         <div class="skill-tooltip">Pick Up the Sword: Increases gold per click.</div>
@@ -120,15 +116,14 @@
             </div>
 
             <div id="gold-ore-container">
-                <img src="assets/images/gold-ore.png" alt="Gold Ore" id="gold-ore" onclick="generateGold()">
+                <img id="gold-ore" src="assets/images/gold-ore.png" alt="Gold Ore" class="clickable" onclick="generateGold()">
             </div>
         </div>
 
         <!-- Heroes Section -->
         <div id="heroes-container">
             <h2>🧙‍♂️ Heroes</h2>
-            <div id="hero-buttons">
-                <!-- Hero buttons dynamically added here -->
+            <div id="heroes-list">
                 <button class="hero-button" onclick="recruitHero('Swordsman')">Swordsman</button>
                 <button class="hero-button" onclick="recruitHero('Archer')">Archer</button>
                 <button class="hero-button" onclick="recruitHero('Mage')">Mage</button>
@@ -138,20 +133,23 @@
 
         <!-- Tavern Section -->
         <div id="tavern-container">
-            <h2>🍺 Tavern</h2>
+            <h2>🍻 Tavern</h2>
             <p>Visit the tavern to recruit new heroes and accept quests!</p>
+
+            <div id="tavern-upgrades-list">
+                <!-- Dynamic Tavern Upgrades Here -->
+            </div>
 
             <div id="tavern-quests-container">
                 <h3>📜 Available Quests</h3>
                 <ul id="tavern-quest-list">
-                    <!-- Tavern quests dynamically added here -->
+                    <!-- Tavern Quests -->
                 </ul>
             </div>
 
             <div id="tavern-heroes-container">
                 <h3>🧙‍♂️ Heroes Available</h3>
                 <div id="tavern-hero-buttons">
-                    <!-- Tavern heroes dynamically added here -->
                     <button class="tavern-hero-button" onclick="recruitHero('Swordsman')">Swordsman</button>
                     <button class="tavern-hero-button" onclick="recruitHero('Archer')">Archer</button>
                     <button class="tavern-hero-button" onclick="recruitHero('Mage')">Mage</button>
