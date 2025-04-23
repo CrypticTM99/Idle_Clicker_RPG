@@ -7,9 +7,8 @@ let goldPerClick = 1;
 let enemyHP = 100;
 let playerXP = 0;
 let playerLevel = 1;
-let tavernUpgrades = { goldBoost: 1, heroBoost: 1 }; // Tavern upgrades
+let tavernUpgrades = { goldBoost: 1, heroBoost: 1 };  // Tavern upgrades
 let heroes = [];
-let heroTally = {}; // Tracks hero purchases
 
 // === Enemy Data ===
 const enemies = [
@@ -54,7 +53,7 @@ const tavernUpgradesData = [
 function initializeGame() {
     initializeQuests();
     initializeSkills();
-    initializeTavernUpgrades(); // Initialize Tavern upgrades
+    initializeTavernUpgrades(); // Initialize Tavern Upgrades
     updateEnemyDisplay();
     updateUI();
 
@@ -67,6 +66,7 @@ function initializeGame() {
 
 // === Gold Ore Click Handler ===
 function handleGoldOreClick() {
+    console.log('Gold ore clicked!'); // Debugging log
     gold += goldPerClick * tavernUpgrades.goldBoost; // Apply gold boost from Tavern upgrades
 
     // Update UI
@@ -100,19 +100,108 @@ function initializeTavernUpgrades() {
 function updateUI() {
     document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
     document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
-
-    // Update hero tally display
-    const heroTallyContainer = document.getElementById("hero-tally");
-    heroTallyContainer.innerHTML = Object.entries(heroTally)
-        .map(([heroName, count]) => `<div>${heroName}: ${count}</div>`)
-        .join("");
-    heroTallyContainer.style.display = Object.keys(heroTally).length > 0 ? "block" : "none";
-
     checkForHeroes();
     updateQuestProgress();
-    updateTavernUpgrades(); // Update Tavern upgrades UI
+    updateTavernUpgrades(); // Update Tavern Upgrades UI
     updatePlayerLevel();
     updateXPDisplay(); // Update XP display
+}
+
+// === Update Player Level ===
+function updatePlayerLevel() {
+    document.getElementById("player-level").innerText = `Level: ${playerLevel} - XP: ${playerXP}`;
+}
+
+// === Update XP Display ===
+function updateXPDisplay() {
+    document.getElementById("player-xp").innerText = `XP: ${playerXP}`;
+}
+
+// === Enemy Click Logic ===
+document.getElementById("enemy-image").addEventListener("click", () => {
+    if (enemyHP <= 0) return;
+    enemyHP -= goldPerClick * tavernUpgrades.heroBoost; // Apply hero boost from Tavern upgrades
+
+    totalClicks++;
+
+    if (enemyHP <= 0) {
+        enemyHP = 0;
+        document.getElementById("enemy-health").innerText = `Enemy Health: 0`;
+        handleEnemyDefeat();
+    } else {
+        document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
+    }
+
+    updateQuestProgress();
+});
+
+// === Enemy Defeat ===
+function handleEnemyDefeat() {
+    defeatedEnemies++;
+    gold += enemies[currentEnemy].reward * tavernUpgrades.goldBoost; // Apply gold boost from Tavern upgrades
+    playerXP += enemies[currentEnemy].reward * 0.1; // Increase XP by a fraction of the enemy reward
+
+    // Level up if XP threshold is reached
+    if (playerXP >= playerLevel * 100) {
+        playerLevel++;
+        playerXP = 0; // Reset XP for next level
+    }
+
+    document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
+    document.getElementById("player-level").innerText = `Level: ${playerLevel} - XP: ${playerXP}`;
+
+    const enemyImage = document.getElementById("enemy-image");
+    enemyImage.style.transition = "opacity 0.5s ease";
+    enemyImage.style.opacity = 0;
+
+    setTimeout(() => {
+        currentEnemy = (currentEnemy + 1) % enemies.length;
+        updateEnemyDisplay();
+    }, 500);
+}
+
+function updateEnemyDisplay() {
+    const enemy = enemies[currentEnemy];
+    enemyHP = enemy.hp;
+
+    const enemyImage = document.getElementById("enemy-image");
+    enemyImage.src = enemy.img;
+    enemyImage.style.opacity = 1;
+
+    document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
+}
+
+// === Quests ===
+function initializeQuests() {
+    quests = [...questData];
+    const questList = document.getElementById("quest-list");
+    questList.innerHTML = "";
+    quests.forEach((quest, index) => {
+        const questItem = document.createElement("div");
+        questItem.id = `quest-${index}`;
+        questItem.innerText = quest.description;
+        questList.appendChild(questItem);
+    });
+}
+
+function updateQuestProgress() {
+    quests.forEach((quest, index) => {
+        if (!quest.complete) {
+            if (quest.description.includes("Click") && totalClicks >= quest.target) {
+                completeQuest(quest, index);
+            } else if (quest.description.includes("Defeat") && defeatedEnemies >= quest.target) {
+                completeQuest(quest, index);
+            }
+        }
+    });
+}
+
+function completeQuest(quest, index) {
+    quest.complete = true;
+    gold += quest.reward;
+    const questItem = document.getElementById(`quest-${index}`);
+    questItem.innerText = `${quest.description} - Completed! Reward: ${quest.reward} Gold`;
+    updateUI();
 }
 
 // === Heroes Management ===
@@ -120,7 +209,7 @@ function checkForHeroes() {
     const heroesList = document.getElementById("heroes-list");
     heroesList.innerHTML = "";
 
-    heroData.forEach((hero) => {
+    heroData.forEach((hero, index) => {
         if (gold >= hero.cost) {
             const button = document.createElement("button");
             button.innerText = `${hero.name} (Cost: ${hero.cost} Gold)`;
@@ -129,13 +218,6 @@ function checkForHeroes() {
                     gold -= hero.cost;
                     hero.level++;
                     heroes.push(hero);
-
-                    // Update hero tally
-                    if (!heroTally[hero.name]) {
-                        heroTally[hero.name] = 0;
-                    }
-                    heroTally[hero.name]++;
-
                     updateUI();
                 }
             };
@@ -165,7 +247,7 @@ function applyIdleDamage() {
 // === Main Game Loop ===
 setInterval(() => {
     collectGoldFromHeroes();
-    applyIdleDamage(); // Apply idle damage from heroes
+    applyIdleDamage();  // Apply idle damage from heroes
     updateUI();
 }, 1000);
 
