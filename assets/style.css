@@ -1,0 +1,189 @@
+/* Style for XP gain effect */
+.xp-gain {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: #4caf50;
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 1s ease-out;
+}
+
+/* Style for Level-Up effect */
+.level-up-effect {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    color: #ffeb3b;
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 1s ease-out;
+}
+
+/* Transition for gold and enemy health */
+#gold-display, #enemy-health {
+    transition: opacity 0.5s ease;
+}
+
+/* Style for tavern upgrade buttons */
+#tavern-upgrades-list button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+#tavern-upgrades-list button:disabled {
+    background-color: #bdbdbd;
+    cursor: not-allowed;
+}
+
+/* Mobile Responsive Styling */
+@media (max-width: 600px) {
+    #game-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+    #info-container, #gameplay-container, #heroes-container, #tavern-container {
+        width: 100%;
+        text-align: center;
+    }
+    #quests-container, #skills-container, #heroes-container {
+        margin-top: 20px;
+    }
+    #enemy-container, #gold-ore-container {
+        margin-bottom: 20px;
+    }
+}
+
+/* Game container flex styling */
+#game-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0 auto;
+}
+
+#gameplay-container {
+    width: 50%;
+    text-align: center;
+    position: relative;
+}
+
+#info-container {
+    width: 40%;
+}
+
+#heroes-container, #tavern-container {
+    width: 100%;
+    text-align: center;
+}
+
+#quests-container, #skills-container {
+    margin-top: 20px;
+}
+
+#enemy-container img, #gold-ore-container img {
+    max-width: 100px;
+    cursor: pointer;
+}
+
+/* Additional styling for sections */
+h1, h2, p {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+/* Fixed skills button container */
+#skills-container {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#skill-list {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.skill-button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.skill-button:hover {
+    background-color: #45a049;
+}
+
+/* Hover effect for skill buttons */
+.skill-button:hover + .skill-tooltip {
+    display: block;
+}
+
+.skill-tooltip {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+}
+
+/* Optional: Add extra styling for responsive skill buttons */
+@media (max-width: 600px) {
+    #skills-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .skill-button {
+        margin-bottom: 10px;
+        width: 80%;
+    }
+}
+
+/* Styling for Heroes Available Section */
+#tavern-heroes-container {
+    margin-top: 20px;
+}
+
+#tavern-hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.tavern-hero-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tavern-hero-button:hover {
+    background-color: #45a049;
+}
