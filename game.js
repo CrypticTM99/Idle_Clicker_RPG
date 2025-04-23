@@ -15,17 +15,17 @@ const enemies = [
     { name: "Ogre", hp: 400, img: "assets/images/enemies/enemy3.png", reward: 360 },
     { name: "Monster4", hp: 600, img: "assets/images/enemies/enemy4.png", reward: 500 },
     { name: "Monster5", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster6", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster7", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster8", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster9", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster10", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster11", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster12", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster13", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster14", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster15", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    { name: "Monster16", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster6", hp: 1000, img: "assets/images/enemies/enemy5.png", reward: 600 },
+    { name: "Monster7", hp: 1400, img: "assets/images/enemies/enemy6.png", reward: 600 },
+    { name: "Monster8", hp: 1800, img: "assets/images/enemies/enemy7.png", reward: 600 },
+    { name: "Monster9", hp: 2200, img: "assets/images/enemies/enemy8.png", reward: 600 },
+    { name: "Monster10", hp: 2800, img: "assets/images/enemies/enemy9.png", reward: 600 },
+    { name: "Monster11", hp: 3200, img: "assets/images/enemies/enemy10.png", reward: 600 },
+    { name: "Monster12", hp: 3800, img: "assets/images/enemies/enemy11.png", reward: 600 },
+    { name: "Monster13", hp: 4700, img: "assets/images/enemies/enemy12.png", reward: 600 },
+    { name: "Monster14", hp: 5400, img: "assets/images/enemies/enemy13.png", reward: 600 },
+    { name: "Monster15", hp: 6800, img: "assets/images/enemies/enemy14.png", reward: 600 },
+    { name: "Monster16", hp: 7400, img: "assets/images/enemies/enemy15.png", reward: 600 },
 ];
 
 let enemyHP = enemies[currentEnemy].hp;
@@ -35,13 +35,14 @@ const heroData = [
     { name: "Archer", cost: 400, goldPerSecond: 10, idleDamage: 14, xp: 0, level: 1 },
     { name: "Mage", cost: 600, goldPerSecond: 20, idleDamage: 28, xp: 0, level: 1 },
     { name: "Swashbuckler", cost: 1200, goldPerSecond: 45, idleDamage: 36, xp: 0, level: 2 },
-    { name: "Mage", cost: 600, goldPerSecond: 20, idleDamage: 28, xp: 0, level: 1 },
+    { name: "TBD", cost: 1800, goldPerSecond: 120, idleDamage: 48, xp: 0, level: 1 },
 ];
 
 const skillData = [
     { name: "Pick Up the Sword", cost: 0, effect: () => { goldPerClick += 1; } },
     { name: "Double Gold", cost: 50, effect: () => { goldPerClick *= 2; } },
     { name: "2x Attack for Heroes", cost: 350, effect: () => { goldPerClick *= 5; } },
+    { name: "Liam neeson's swag", cost: 550, effect: () => { goldPerClick *= 4; } },
 ];
 
 const questData = [
