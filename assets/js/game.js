@@ -103,31 +103,17 @@ function updateUI() {
     updateQuestProgress();
     updateTavernUpgrades(); // Update Tavern Upgrades UI
     updatePlayerLevel();
-}
-
-// === Update Tavern Upgrades UI ===
-function updateTavernUpgrades() {
-    const tavernContainer = document.getElementById("tavern-upgrades-list");
-    tavernContainer.innerHTML = "";
-
-    tavernUpgradesData.forEach((upgrade) => {
-        const button = document.createElement("button");
-        button.innerText = `${upgrade.name} (${upgrade.cost} gold)`;
-        button.onclick = () => {
-            if (gold >= upgrade.cost) {
-                gold -= upgrade.cost;
-                upgrade.effect();
-                button.disabled = true;
-                updateUI();
-            }
-        };
-        tavernContainer.appendChild(button);
-    });
+    updateXPDisplay(); // Update XP display
 }
 
 // === Update Player Level ===
 function updatePlayerLevel() {
     document.getElementById("player-level").innerText = `Level: ${playerLevel} - XP: ${playerXP}`;
+}
+
+// === Update XP Display ===
+function updateXPDisplay() {
+    document.getElementById("player-xp").innerText = `XP: ${playerXP}`;
 }
 
 // === Enemy Click Logic ===
@@ -152,7 +138,16 @@ document.getElementById("enemy-image").addEventListener("click", () => {
 function handleEnemyDefeat() {
     defeatedEnemies++;
     gold += enemies[currentEnemy].reward * tavernUpgrades.goldBoost; // Apply gold boost from Tavern upgrades
+    playerXP += enemies[currentEnemy].reward * 0.1; // Increase XP by a fraction of the enemy reward
+
+    // Level up if XP threshold is reached
+    if (playerXP >= playerLevel * 100) {
+        playerLevel++;
+        playerXP = 0; // Reset XP for next level
+    }
+
     document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
+    document.getElementById("player-level").innerText = `Level: ${playerLevel} - XP: ${playerXP}`;
 
     const enemyImage = document.getElementById("enemy-image");
     enemyImage.style.transition = "opacity 0.5s ease";
