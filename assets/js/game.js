@@ -1,3 +1,4 @@
+
 // === Global Variables ===
 let gold = 0;
 let totalClicks = 0;
@@ -7,8 +8,9 @@ let goldPerClick = 1;
 let enemyHP = 100;
 let playerXP = 0;
 let playerLevel = 1;
-let tavernUpgrades = { goldBoost: 1, heroBoost: 1 };  // Tavern upgrades
+let tavernUpgrades = { goldBoost: 1, heroBoost: 1 };
 let heroes = [];
+let quests = [];
 
 // === Enemy Data ===
 const enemies = [
@@ -17,7 +19,6 @@ const enemies = [
     { name: "Ogre", hp: 400, img: "assets/images/enemies/enemy3.png", reward: 360 },
     { name: "Monster4", hp: 600, img: "assets/images/enemies/enemy4.png", reward: 500 },
     { name: "Ogre", hp: 800, img: "assets/images/enemies/enemy5.png", reward: 600 },
-    // Add more enemies as needed...
 ];
 
 // === Hero Data ===
@@ -50,141 +51,54 @@ const tavernUpgradesData = [
     { name: "Hero Boost", cost: 500, effect: () => { tavernUpgrades.heroBoost *= 2; } },
 ];
 
-// === Game Initialization ===
 function initializeGame() {
     initializeQuests();
-    initializeSkills();
-    initializeTavernUpgrades(); // Initialize Tavern Upgrades
     updateEnemyDisplay();
     updateUI();
+    initializeTavernUpgrades();
 
-    // Add event listener for gold ore image
-    const goldOreImage = document.getElementById("gold-ore");
-    goldOreImage.addEventListener("click", handleGoldOreClick);
+    document.getElementById("gold-ore").addEventListener("click", handleGoldOreClick);
+    document.getElementById("enemy-image").addEventListener("click", handleEnemyClick);
 }
 
-// === Gold Ore Click Handler ===
 function handleGoldOreClick() {
-    // Increment gold per click
-    gold += goldPerClick * tavernUpgrades.goldBoost; // Apply gold boost from Tavern upgrades
-    
-    // Update UI
-    document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
-    
-    // Check for quests progress
-    updateQuestProgress();
-}
-
-// === Tavern Upgrades ===
-function initializeTavernUpgrades() {
-    const tavernContainer = document.getElementById("tavern-upgrades-list");
-    tavernContainer.innerHTML = "";
-
-    tavernUpgradesData.forEach((upgrade) => {
-        const button = document.createElement("button");
-        button.innerText = `${upgrade.name} (${upgrade.cost} gold)`;
-        button.onclick = () => {
-            if (gold >= upgrade.cost) {
-                gold -= upgrade.cost;
-                upgrade.effect();
-                button.disabled = true;
-                updateUI();
-            }
-        };
-        tavernContainer.appendChild(button);
-    });
-}
-
-// === Update UI ===
-function updateUI() {
-    document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
-    document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
-    checkForHeroes();
-    updateQuestProgress();
-    updateTavernUpgrades(); // Update Tavern Upgrades UI
-    updatePlayerLevel();
-}
-
-// === Update Tavern Upgrades UI ===
-function updateTavernUpgrades() {
-    const tavernContainer = document.getElementById("tavern-upgrades-list");
-    tavernContainer.innerHTML = "";
-
-    tavernUpgradesData.forEach((upgrade) => {
-        const button = document.createElement("button");
-        button.innerText = `${upgrade.name} (${upgrade.cost} gold)`;
-        button.onclick = () => {
-            if (gold >= upgrade.cost) {
-                gold -= upgrade.cost;
-                upgrade.effect();
-                button.disabled = true;
-                updateUI();
-            }
-        };
-        tavernContainer.appendChild(button);
-    });
-}
-
-// === Update Player Level ===
-function updatePlayerLevel() {
-    document.getElementById("player-level").innerText = `Level: ${playerLevel} - XP: ${playerXP}`;
-}
-
-// === Enemy Click Logic ===
-document.getElementById("enemy-image").addEventListener("click", () => {
-    if (enemyHP <= 0) return;
-    enemyHP -= goldPerClick * tavernUpgrades.heroBoost; // Apply hero boost from Tavern upgrades
-
+    gold += goldPerClick * tavernUpgrades.goldBoost;
     totalClicks++;
-
-    if (enemyHP <= 0) {
-        enemyHP = 0;
-        document.getElementById("enemy-health").innerText = `Enemy Health: 0`;
-        handleEnemyDefeat();
-    } else {
-        document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
-    }
-
     updateQuestProgress();
-});
+    updateUI();
+}
 
-// === Enemy Defeat ===
+function handleEnemyClick() {
+    if (enemyHP <= 0) return;
+    enemyHP -= goldPerClick * tavernUpgrades.heroBoost;
+    if (enemyHP <= 0) {
+        handleEnemyDefeat();
+    }
+    updateUI();
+}
+
 function handleEnemyDefeat() {
     defeatedEnemies++;
-    gold += enemies[currentEnemy].reward * tavernUpgrades.goldBoost; // Apply gold boost from Tavern upgrades
-    document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
-
-    const enemyImage = document.getElementById("enemy-image");
-    enemyImage.style.transition = "opacity 0.5s ease";
-    enemyImage.style.opacity = 0;
-
-    setTimeout(() => {
-        currentEnemy = (currentEnemy + 1) % enemies.length;
-        updateEnemyDisplay();
-    }, 500);
+    gold += enemies[currentEnemy].reward * tavernUpgrades.goldBoost;
+    currentEnemy = (currentEnemy + 1) % enemies.length;
+    updateEnemyDisplay();
 }
 
 function updateEnemyDisplay() {
     const enemy = enemies[currentEnemy];
     enemyHP = enemy.hp;
-
-    const enemyImage = document.getElementById("enemy-image");
-    enemyImage.src = enemy.img;
-    enemyImage.style.opacity = 1;
-
-    document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
+    document.getElementById("enemy-image").src = enemy.img;
 }
 
-// === Quests ===
 function initializeQuests() {
-    quests = [...questData];
+    quests = JSON.parse(JSON.stringify(questData));
     const questList = document.getElementById("quest-list");
     questList.innerHTML = "";
     quests.forEach((quest, index) => {
-        const questItem = document.createElement("div");
-        questItem.id = `quest-${index}`;
-        questItem.innerText = quest.description;
-        questList.appendChild(questItem);
+        const div = document.createElement("div");
+        div.id = `quest-${index}`;
+        div.innerText = quest.description;
+        questList.appendChild(div);
     });
 }
 
@@ -203,46 +117,44 @@ function updateQuestProgress() {
 function completeQuest(quest, index) {
     quest.complete = true;
     gold += quest.reward;
-    const questItem = document.getElementById(`quest-${index}`);
-    questItem.innerText = `${quest.description} - Completed! Reward: ${quest.reward} Gold`;
-    updateUI();
+    document.getElementById(`quest-${index}`).innerText = `${quest.description} - Completed! Reward: ${quest.reward}`;
 }
 
-// === Heroes Management ===
-function checkForHeroes() {
-    const heroesList = document.getElementById("heroes-list");
-    heroesList.innerHTML = "";
-
-    heroData.forEach((hero, index) => {
-        if (gold >= hero.cost) {
-            const button = document.createElement("button");
-            button.innerText = `${hero.name} (Cost: ${hero.cost} Gold)`;
-            button.onclick = () => {
-                if (gold >= hero.cost) {
-                    gold -= hero.cost;
-                    hero.level++;
-                    heroes.push(hero);
-                    updateUI();
-                }
-            };
-            heroesList.appendChild(button);
-        }
+function initializeTavernUpgrades() {
+    const container = document.getElementById("tavern-upgrades-list");
+    container.innerHTML = "";
+    tavernUpgradesData.forEach(upgrade => {
+        const button = document.createElement("button");
+        button.innerText = `${upgrade.name} (${upgrade.cost} gold)`;
+        button.onclick = () => {
+            if (gold >= upgrade.cost) {
+                gold -= upgrade.cost;
+                upgrade.effect();
+                button.disabled = true;
+                updateUI();
+            }
+        };
+        container.appendChild(button);
     });
 }
 
-// === Auto Collect Gold from Heroes ===
+function updateUI() {
+    document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
+    document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
+    document.getElementById("player-level").innerText = `Level: ${playerLevel} - XP: ${playerXP}`;
+}
+
+// === Auto Gold from Heroes ===
 function collectGoldFromHeroes() {
     heroes.forEach(hero => {
         gold += hero.goldPerSecond * hero.level;
-        document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
     });
+    updateUI();
 }
 
 // === Main Game Loop ===
 setInterval(() => {
     collectGoldFromHeroes();
-    updateUI();
 }, 1000);
 
-// === Start the Game ===
 initializeGame();
