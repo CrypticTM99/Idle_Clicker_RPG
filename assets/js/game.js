@@ -223,12 +223,24 @@ function checkForHeroes() {
                 if (gold >= hero.cost) {
                     gold -= hero.cost;
                     hero.xp += 10;  // Add XP for hiring
+                    heroes.push(hero);  // Add hero to heroes list
                     updateUI();
                 }
             };
             document.getElementById("hero-list").appendChild(button);
         }
     });
+}
+
+// === Idle Gold and Damage Generation ===
+function generateIdleGoldAndDamage() {
+    heroes.forEach(hero => {
+        gold += hero.goldPerSecond * tavernUpgrades.goldBoost; // Idle gold generation with gold boost
+        enemyHP -= hero.idleDamage; // Idle damage on the enemy
+    });
+
+    document.getElementById("gold-display").innerText = `💰 Gold: ${gold}`;
+    document.getElementById("enemy-health").innerText = `Enemy Health: ${enemyHP}`;
 }
 
 // === Player Level Up ===
@@ -239,6 +251,9 @@ function checkPlayerLevelUp() {
         updateUI();
     }
 }
+
+// Set interval for idle gold and damage generation
+setInterval(generateIdleGoldAndDamage, 1000);
 
 // Start the game
 initializeGame();
